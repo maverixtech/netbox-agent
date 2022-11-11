@@ -128,13 +128,16 @@ class OmreportController(RaidController):
 class OmreportRaid(Raid):
     def __init__(self):
         self.controllers = []
-        res = omreport('storage controller')
+        try:
+            res = omreport('storage controller')
 
-        for controller in res['Controller']:
-            ctrl_index = controller['ID']
-            self.controllers.append(
-                OmreportController(ctrl_index, controller)
-            )
+            for controller in res['Controller']:
+                ctrl_index = controller['ID']
+                self.controllers.append(
+                    OmreportController(ctrl_index, controller)
+                )
+        except Exception:
+            pass
 
     def get_controllers(self):
         return self.controllers
